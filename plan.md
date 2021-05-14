@@ -1,2 +1,3 @@
 - asseble a draft, add doxa as a submodule
 - fix doxa setup, add shadow-cljs deps
+- add doxa gist for clj

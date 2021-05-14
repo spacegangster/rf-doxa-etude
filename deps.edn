@@ -1,20 +1,22 @@
-{:deps
+{:extra-paths ["src" "doxa/src"]
+ :deps
  {org.clojure/clojure       {:mvn/version "1.10.3"
                              :scope       "provided"}
   org.clojure/clojurescript {:mvn/version "1.10.844"
                              :scope       "provided"}
   reagent                   {:mvn/version "1.0.0"}
   re-frame                  {:mvn/version "1.2.0"}
-  ribelo/doxa               {:git/url "https://github.com/ribelo/doxa",
-                             :sha     "956a3244ea15bedf69f18cc74385b7c2bec5635a"}
+  re-com                    {:mvn/version "2.13.2"}
+  ;ribelo/doxa               {:git/url "https://github.com/ribelo/doxa",
+  ;                           :sha     "956a3244ea15bedf69f18cc74385b7c2bec5635a"}
   net.cgrand/macrovich      {:mvn/version "0.2.1"}
   org.clojure/tools.logging {:mvn/version "1.1.0"}
 
   ; doxa deps
-  meander/epsilon        {:mvn/version "0.0.602"}
-  com.taoensso/encore    {:mvn/version "3.10.1"}
-  com.taoensso/timbre    {:mvn/version "5.1.2"}
-  juji/editscript        {:mvn/version "0.5.7"}
-  edn-query-language/eql {:mvn/version "1.0.2"}
-  thheller/shadow-cljs   {:mvn/version "2.11.15"}}}
+  meander/epsilon           {:mvn/version "0.0.602"}
+  com.taoensso/encore       {:mvn/version "3.10.1"}
+  com.taoensso/timbre       {:mvn/version "5.1.2"}
+  juji/editscript           {:mvn/version "0.5.7"}
+  edn-query-language/eql    {:mvn/version "1.0.2"}
+  thheller/shadow-cljs      {:mvn/version "2.11.15"}}}
 
