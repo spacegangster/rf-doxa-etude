@@ -1,7 +1,8 @@
-(ns rf-doxa.core
+(ns rf-doxa.facade
   (:require
    [reagent.dom :as rdom]
    [re-frame.core :as re-frame]
+   [rf-doxa.doxa-rf-gist]
    [rf-doxa.events :as events]
    [rf-doxa.routes :as routes]
    [rf-doxa.views :as views]
