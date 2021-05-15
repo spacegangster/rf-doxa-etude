@@ -14,10 +14,7 @@
 (rf/reg-sub
   :subs.db.todos/all
   (fn [db]
-    (let [query-res (dx/q [:find ?e :where [?e :m/gist]] db)
-          ids (flatten query-res)
-          idents (mapv #(vector :db/id %) ids)]
-      (dx/pull db task-pull-vector idents))))
+    (dx/q [:find [(pull [:*] [?table ?e]) ...] :where [[?table ?e] :m/gist]] db)))
 
 
 (comment
