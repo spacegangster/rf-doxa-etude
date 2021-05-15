@@ -38,6 +38,6 @@
   (pushy/start! history))
 
 (re-frame/reg-fx
-  :navigate
+  :fx/navigate
   (fn [handler]
     (navigate! handler)))

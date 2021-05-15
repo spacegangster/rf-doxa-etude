@@ -23,7 +23,7 @@
   [re-com/hyperlink
    :src      (at)
    :label    "go to About Page"
-   :on-click #(re-frame/dispatch [::events/navigate :about])])
+   :on-click #(re-frame/dispatch [:evt.sys/navigate :about])])
 
 (defn home-panel []
   [re-com/v-box
@@ -47,7 +47,7 @@
   [re-com/hyperlink
    :src      (at)
    :label    "go to Home Page"
-   :on-click #(re-frame/dispatch [::events/navigate :home])])
+   :on-click #(re-frame/dispatch [:evt.sys/navigate :home])])
 
 (defn about-panel []
   [re-com/v-box

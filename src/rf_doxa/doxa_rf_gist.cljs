@@ -10,7 +10,7 @@
 
 ;; declare mutiple db
 
-(def default-db       (dx/create-dx))
+;(def default-db       (dx/create-dx))
 ;; register db
 (dx/reg-dx! :dx.db/app re-frame.db/app-db)
 
@@ -18,7 +18,8 @@
 ;; this allows you to conveniently use multiple db's simultaneously without
 ;; requiring them
 
-(comment (dx/with-dx [?symbol keyword?] ...))
+(comment
+  (dx/with-dx [?symbol keyword?] ...))
 
 
 (rf/reg-fx
@@ -33,7 +34,7 @@
   (deref (get @dx/dxs_ :dx.db/app))
   (reset! dx/dxs_ {})
   (deref re-frame.db/app-db)
-  (dx/pull @re-frame.db/app-db [:gist] [:db/id :e.id.task/one]))
+  (dx/pull @re-frame.db/app-db [:gist] [:db/id 1]))
 
 ;; from now on you can use `commit` in re-frame effects
 
