@@ -17,7 +17,9 @@
 
 (comment
   (rf/dispatch [:evt.sys/init-db])
-  (deref re-frame.db/app-db))
+  (deref re-frame.db/app-db)
+  (dx/pull @re-frame.db/app-db [:gist] [:db/id 1]))
+
 
 (rf/reg-event-fx
   :evt.sys/navigate
@@ -29,3 +31,13 @@
  ::set-active-panel
  (fn [{:keys [db]} [_ active-panel]]
    {:db (assoc db :active-panel active-panel)}))
+
+
+(rf/reg-event-fx
+  :evt.db/put
+  (fn [{db :db, :as cofx} [_ put-able]]
+    (let [put-vec (if (map? put-able)
+                    [:dx/put put-able]
+                    (into [:dx/put] put-able))
+          db (dx/commit db put-vec)]
+      {:db db})))

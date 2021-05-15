@@ -23,8 +23,8 @@
 
 
 (rf/reg-fx
- :fx.dx/put
- (fn [[id-vec data]]
+ :fffx.dx/put
+ (fn [put-tx]
    (dx/commit! :dx.db/app [:dx/put id-vec data])))
 
 (dx/with-dx [db :dx.db/app]

@@ -4,8 +4,8 @@
 - add working gists for doxa; update doxa submodule
 - deps edn fix paths
 - reg dx db on init   
+- events : commit tasks to doxa
 
 # todo
-- events : commit tasks to doxa
 - views : show todos from doxa
 - views : add tasks from view
