@@ -26,3 +26,16 @@
 (defclass level1
   []
   {:color :green})
+
+(def col:bg:task
+  (garden.color/hsl 0 0 95))
+
+(defclass task
+  []
+  {:padding :8px
+   :background col:bg:task})
+
+(defclass todo-list
+  []
+  {:display :grid
+   :grid-gap :4px})

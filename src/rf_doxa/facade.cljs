@@ -2,10 +2,9 @@
   (:require
    [reagent.dom :as rdom]
    [re-frame.core :as rf]
-   [rf-doxa.doxa-rf-gist]
    [rf-doxa.events :as events]
    [rf-doxa.routes :as routes]
-   [rf-doxa.views :as views]
+   [rf-doxa.views.facade :as views]
    [rf-doxa.config :as config]))
 
 
