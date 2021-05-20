@@ -7,13 +7,23 @@
     [ribelo.doxa :as dx]))
 
 
+#_(rf/reg-event-fx
+    :evt.sys/init-db
+    (fn [_ [_ ?loaded-db]]
+      (let [db (dx/commit db/default-db (db/default-tasks-transactions))]
+        ; showing the new :fx fx handler
+        {:fx [[:db db]
+              [:fx.dx/register-db [:dx.db/app (fn [] re-frame.db/app-db)]]]})))
+
+
 (rf/reg-event-fx
   :evt.sys/init-db
   (fn [_ [_ ?loaded-db]]
-    (let [db (dx/commit db/default-db (db/default-tasks-transactions))]
+    (let [db (dx/create-dx db/default-tasks {:db/db-id :db.db-id/main, :with-diff? true})
+          db (merge db db/default-db)]
       ; showing the new :fx fx handler
-      {:fx [[:db db]
-            [:fx.dx/register-db [:dx.db/app (fn [] re-frame.db/app-db)]]]})))
+      {:db db
+       :fx [[:fx.dx/register-db [:dx.db/app (fn [] re-frame.db/app-db)]]]})))
 
 (comment
   (rf/dispatch [:evt.sys/init-db])

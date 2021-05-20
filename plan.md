@@ -7,6 +7,7 @@
 - events : commit tasks to doxa
 - views : show todos from doxa and change db from the view
 - readme.md credits
+- db : init db with meta for diffs
 
 
 

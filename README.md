@@ -15,12 +15,11 @@ git clone --recurse-submodules https://github.com/spacegangster/rf-doxa-etude
 
 
 ### Credits
-Kudos to the awesome 
-[Dan Vingo](http://github.com/dvingo) 
+Kudos to [Dan Vingo](http://github.com/dvingo) 
 who has sparked the idea and sponsors the project.
 
 
-Kudos to the no less awesome [ribelo](https://github.com/ribelo)
+Kudos to [ribelo](https://github.com/ribelo)
 for authoring doxa and being so fast, helpful and lovely.
 
 
