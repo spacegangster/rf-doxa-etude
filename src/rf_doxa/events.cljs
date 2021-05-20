@@ -32,6 +32,13 @@
 
 
 (rf/reg-event-fx
+  :evt.sys/post-diff
+  (fn [_ [_ diff]]
+    {:fx.server/post-diff diff}))
+
+
+
+(rf/reg-event-fx
   :evt.sys/navigate
   (fn [_ [_ page]]
     {:fx/navigate page}))

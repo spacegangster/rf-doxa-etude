@@ -1,4 +1,6 @@
 (ns rf-doxa.diff-sync
+  "Diff sync notes from ribelo's comment
+  https://github.com/ribelo/doxa/issues/10"
   (:require
     [re-frame.core :as rf]
     [ribelo.doxa :as dx]))

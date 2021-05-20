@@ -1,5 +1,6 @@
 (ns rf-doxa.effects
   (:require [ribelo.doxa :as dx]
+            [rf-doxa.logging :as log]
             [re-frame.core :as rf]))
 
 
@@ -20,10 +21,26 @@
   re-frame.db/app-db)
 
 
+(defn on-db-events [db]
+  (let [cur-meta (meta db)
+        diffs (:tx cur-meta)]
+    (log/log ::on-db db (pr-str diffs))
+    (doseq [[path op-type ?new-val] diffs]
+      (let [diff-evt (cond-> {:diff/path path, :diff/op-type op-type}
+                             ?new-val (assoc :diff/value ?new-val))]
+        (rf/dispatch [:evt.sys/post-diff diff-evt])))))
+
+(rf/reg-fx
+  :fx.server/post-diff
+  (fn [diff]
+    (log/log ::post-diff diff)))
+
 (rf/reg-fx
   :fx.dx/register-db
   (fn [[db-name get-db-atom]]
-    (dx/reg-dx! db-name (get-db-atom))))
+    (let [db-atom (get-db-atom)]
+      (dx/reg-dx! db-name db-atom)
+      (dx/listen! @db-atom on-db-events))))
 
 (rf/reg-fx
   :fx.dx/put
