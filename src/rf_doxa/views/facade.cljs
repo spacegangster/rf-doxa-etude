@@ -2,6 +2,7 @@
   (:require
    [re-frame.core :as rf]
    [re-com.core :as re-com :refer [at]]
+   [re-com.buttons]
    [reagent.core :as rc]
    [rf-doxa.styles :as styles]
    [rf-doxa.events :as events]
@@ -40,6 +41,12 @@
 (defn on-task-gist-change [id gist] ; & [?opt-on-done]
   (rf/dispatch [:evt.db/put [[:db/id id] :m/gist gist]]))
 
+(defn dispatch:delete-task [id]
+  (rf/dispatch [:evt.db/delete-task {:evt/eid id}]))
+
+(defn dispatch:add-task []
+  (rf/dispatch [:evt.db/add-task]))
+
 
 (defn task
   [{gist :m/gist
@@ -55,7 +62,10 @@
      :on-change (rc/partial on-task-status-change id)]
     [re-com/input-text
      :on-change (rc/partial on-task-gist-change id)
-     :model gist]]])
+     :model gist]
+    [re-com.buttons/button
+     :label "[x]"
+     :on-click (rc/partial dispatch:delete-task id)]]])
 
 (defn todos-raw [todos]
   [re-com/v-box
@@ -68,14 +78,18 @@
 (defn todos []
   (let [sub:todos (rf/subscribe [:subs.db.todos/all])]
     (fn []
-      [todos-raw @sub:todos])))
+      [re-com/v-box
+       :children
+       [[re-com/button
+         :on-click dispatch:add-task
+         :label "Add task"]
+        [todos-raw @sub:todos]]])))
 
 (defn home-panel []
   [re-com/v-box
    :src      (at)
    :gap      "1em"
    :children [[home-title]
-              [link-to-about-page]
               [todos]]])
 
 

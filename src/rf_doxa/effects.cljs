@@ -26,6 +26,7 @@
         diffs (:tx cur-meta)]
     (log/log ::on-db db (pr-str diffs))
     (doseq [[path op-type ?new-val] diffs]
+      ; op-type one of :r (replace), :+, :-
       (let [diff-evt (cond-> {:diff/path path, :diff/op-type op-type}
                              ?new-val (assoc :diff/value ?new-val))]
         (rf/dispatch [:evt.sys/post-diff diff-evt])))))

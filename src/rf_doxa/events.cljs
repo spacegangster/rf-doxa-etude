@@ -50,9 +50,35 @@
    {:db (assoc db :active-panel active-panel)}))
 
 
+(defn db->new-id [db]
+  (if-let [cur-id (:db/next-id db)]
+    [(str "client-" cur-id)
+     (update db :db/next-id inc)]
+    (let [idx (:db/id db)
+          cur-id (inc (apply max (keys idx)))]
+      [(str "client-" cur-id)
+       (assoc db :db/next-id (inc cur-id))])))
+
+(rf/reg-event-fx
+  :evt.db/add-task
+  (fn [{db :db, :as cofx}]
+    (let [[new-id db]  (db->new-id db)
+          put-vec [:dx/put {:db/id new-id :m/gist ""}]
+          db (dx/commit db put-vec)]
+      {:db db})))
+
+(rf/reg-event-fx
+  :evt.db/delete-task
+  [re-frame.core/trim-v]
+  (fn [{db :db, :as cofx} [{eid :evt/eid, :as evt}]]
+    (prn ::delete-task evt)
+    {:db (dx/commit db [:dx/delete [:db/id eid]])}))
+
+
 (rf/reg-event-fx
   :evt.db/put
-  (fn [{db :db, :as cofx} [_ put-able]]
+  [re-frame.core/trim-v]
+  (fn [{db :db, :as cofx} [put-able]]
     (let [put-vec (if (map? put-able)
                     [:dx/put put-able]
                     (into [:dx/put] put-able))
