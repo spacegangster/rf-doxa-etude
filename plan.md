@@ -23,6 +23,7 @@
 # own
 - add screenshot
 - improve readme
+- fix debugging code
 
 
 

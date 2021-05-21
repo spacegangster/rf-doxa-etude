@@ -61,11 +61,11 @@
 
 (comment
   (deref (rf/subscribe [:subs.db.todos/all]))
-  (dx/q [:find  [?e]
-         :where [?e :gist]]
+  (dx/q [:find  ?e
+         :where [?e :m/gist]]
         @re-frame.db/app-db)
-  (dx/q [:find  [('pull [:gist] [?e]) ...]
-         :where [?e :gist]]
+  (dx/q [:find  [('pull [:m/gist] [?e]) ...]
+         :where [?e :m/gist]]
         @re-frame.db/app-db))
 
 

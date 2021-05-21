@@ -101,8 +101,26 @@
   :evt.db/put
   [re-frame.core/trim-v]
   (fn [{db :db, :as cofx} [put-able]]
+    (prn ::put put-able)
     (let [put-vec (if (map? put-able)
                     [:dx/put put-able]
                     (into [:dx/put] put-able))
           db (dx/commit db put-vec)]
       {:db db})))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
