@@ -24,6 +24,7 @@
 - add screenshot
 - improve readme
 - fix debugging code
+- add opinion to readme
 
 
 

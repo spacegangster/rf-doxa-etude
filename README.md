@@ -7,6 +7,11 @@ Doxa is a new Clojure DB that works both on frontend and backend and strikes a g
 between usability, features and speed.
 
 
+## Personal opinion
+I've actually enjoyed working with doxa. This may be the easiest diff calc I've ever seen.
+Doxa is still a fresh work so the API is expected to be a bit shaky.
+
+
 ## Clone and play
 
     git clone --recurse-submodules https://github.com/spacegangster/rf-doxa-etude

@@ -13,5 +13,3 @@
 
 # shadow-cljs cache, port files
 /.shadow-cljs/
-
-src/rf_doxa/doxa_diff_sync.cljs
