@@ -59,24 +59,19 @@
     status :m/status
     id :db/id
     :as task}]
-  (let [atom:status (rc/atom status)]
-    (fn []
-      ^{:key @atom:status}
-      [re-com/h-box
-       :class (styles/task)
-       :children
-       [[re-com/checkbox
-         :model atom:status
-         ;:attr {:checked status}
-         :on-change (fn [v]
-                      (let [nv (swap! atom:status not)]
-                        (on-task-status-change id nv)))]
-        [re-com/input-text
-         :on-change (rc/partial on-task-gist-change id)
-         :model gist]
-        [re-com.buttons/button
-         :label "[x]"
-         :on-click (rc/partial dispatch:delete-task id)]]])))
+  [re-com/h-box
+   :class (styles/task)
+   :children
+   [[re-com/checkbox
+     :model status
+     ;:attr {:checked status}
+     :on-change (rc/partial on-task-status-change id)]
+    [re-com/input-text
+     :on-change (rc/partial on-task-gist-change id)
+     :model gist]
+    [re-com.buttons/button
+     :label "[x]"
+     :on-click (rc/partial dispatch:delete-task id)]]])
 
 (defn todos-raw [todos]
   [re-com/v-box

@@ -15,7 +15,7 @@
   (fn [db] (:db/search-string db "")))
 
 (def task-pull-vector
-  [:m/gist :db/id])
+  [:m/gist :m/status :db/id])
 
 (rf/reg-sub
   :subs.db.todos/filtered
@@ -25,28 +25,27 @@
           tab (:db/active-tab db :nav.tab/all)
           status (case tab, :nav.tab/due false, :nav.tab/complete true, nil)
           query-res
-          (dx/q [:find ?e
-                 :in ?pat ?q-status
-                 :where
-                 [?e :m/gist ?g]
-                 [?e :m/status ?status]
-                 [(= ?q-status ?status)]
-                 [(re-find ?pat ?g)]]
-                db search-re status)
+          (if (nil? status)
+            (dx/q [:find ?e
+                   :in ?pat
+                   :where
+                   [?e :m/gist ?g]
+                   [(re-find ?pat ?g)]]
+                  db search-re)
+            (dx/q [:find ?e
+                   :in ?pat ?q-status
+                   :where
+                   [?e :m/gist ?g]
+                   [?e :m/status ?status]
+                   [(= ?q-status ?status)]
+                   [(re-find ?pat ?g)]]
+                  db search-re status))
           ids (flatten query-res)
           idents (mapv #(vector :db/id %) ids)]
       (dx/pull db task-pull-vector idents))))
 
 (comment
   (deref (rf/subscribe [:subs.db.todos/filtered])))
-
-(comment
-  (dx/q [:find ?e ?g
-         :in ?pat
-         :where
-         [?e :m/gist ?g]
-         [(.test ?pat ?g)]]
-        @re-frame.db/app-db #"3"))
 
 (comment
   (rf/reg-sub
