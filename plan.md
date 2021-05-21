@@ -11,6 +11,7 @@
 - db : listen changes and post diff
 - add and delete tasks – added UI and the events
 - add text search (basic re-find)
+- fix false attrs submit in diff
 
 
 
