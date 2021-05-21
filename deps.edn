@@ -1,9 +1,10 @@
-{:paths ["src" "doxa/src"]
+{:paths ["src" "doxa/src" "malli-code-gen/src/main"]
  :deps
  {org.clojure/clojure        {:mvn/version "1.10.3"
                               :scope       "provided"}
   org.clojure/clojurescript  {:mvn/version "1.10.844"
                               :scope       "provided"}
+  metosin/malli              {:mvn/version "0.5.1"}
   reagent                    {:mvn/version "1.0.0"}
   re-frame                   {:mvn/version "1.2.0"}
   re-com                     {:mvn/version "2.13.2"}

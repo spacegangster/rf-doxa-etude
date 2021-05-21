@@ -1,7 +1,9 @@
 (ns rf-doxa.subs
   (:require
     [re-frame.core :as rf]
-    [ribelo.doxa :as dx]))
+    [ribelo.doxa :as dx]
+    [space.matterandvoid.malli-gen.api :as mcg]
+    [rf-doxa.specs]))
 
 
 (rf/reg-sub
@@ -15,7 +17,8 @@
   (fn [db] (:db/search-string db "")))
 
 (def task-pull-vector
-  [:m/gist :m/status :db/id])
+  (mcg/schema->eql rf-doxa.specs/schema:task {}))
+
 
 (rf/reg-sub
   :subs.db.todos/filtered

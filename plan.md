@@ -18,15 +18,9 @@
   (I've failed to query for missing fields or dynamically inject a vector into a query) 
   https://github.com/ribelo/doxa/issues/15
 - apply incoming diffs 
+- use malli-code-gen for task pull vectors
 
 
 
 # todo
-
-
-? use malli-code-gen for task pull vectors
-
-
-Failed to commit negative id
-core.cljc:180 2021-05-20T18:42:03.833Z ERROR [ribelo.doxa:334] - invalid commit [:dx/put {:db/id -1, :m/gist ""}] 
 
