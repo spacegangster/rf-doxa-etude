@@ -59,6 +59,15 @@
       [(str "client-" cur-id)
        (assoc db :db/next-id (inc cur-id))])))
 
+(rf/reg-event-db
+  :evt.db/simple-assoc
+  (fn [db [_ {prop :evt/prop value :evt/value}]]
+    (assoc db prop value)))
+
+(comment
+  (rf/dispatch [:evt.db/simple-assoc {:evt/prop :db/search-string :evt/value "333"}]))
+
+
 (rf/reg-event-fx
   :evt.db/add-task
   (fn [{db :db, :as cofx}]

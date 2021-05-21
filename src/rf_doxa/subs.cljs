@@ -1,6 +1,7 @@
 (ns rf-doxa.subs
   (:require
     [re-frame.core :as rf]
+    [meander.epsilon]
     [ribelo.doxa :as dx]))
 
 (rf/reg-sub
@@ -8,17 +9,49 @@
  (fn [db _]
    (:active-panel db)))
 
+
+(rf/reg-sub
+  :subs.db/search-string
+  (fn [db] (:db/search-string db "")))
+
 (def task-pull-vector
   [:m/gist :db/id])
 
 (rf/reg-sub
-  :subs.db.todos/all
+  :subs.db.todos/filtered
   (fn [db]
-    (let [query-res (dx/q [:find ?e :where [?e :m/gist]] db)
+    (let [search-text (:db/search-string db "")
+          search-re (re-pattern search-text)
+          query-res
+          (dx/q [:find ?e
+                 :in ?pat
+                 :where
+                 [?e :m/gist ?g]
+                 [(re-find ?pat ?g)]]
+                db search-re)
           ids (flatten query-res)
           idents (mapv #(vector :db/id %) ids)]
       (dx/pull db task-pull-vector idents))))
 
+(comment
+  (deref (rf/subscribe [:subs.db.todos/filtered])))
+
+(comment
+  (dx/q [:find ?e ?g
+         :in ?pat
+         :where
+         [?e :m/gist ?g]
+         [(.test ?pat ?g)]]
+        @re-frame.db/app-db #"3"))
+
+(comment
+  (rf/reg-sub
+    :subs.db.todos/all
+    (fn [db]
+      (let [query-res (dx/q [:find ?e :where [?e :m/gist]] db)
+            ids (flatten query-res)
+            idents (mapv #(vector :db/id %) ids)]
+        (dx/pull db task-pull-vector idents)))))
 
 (comment
   (deref (rf/subscribe [:subs.db.todos/all]))

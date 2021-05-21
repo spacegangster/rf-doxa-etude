@@ -10,11 +10,13 @@
 - db : init db with meta for diffs
 - db : listen changes and post diff
 - add and delete tasks – added UI and the events
+- add text search (basic re-find)
 
 
 
 # todo
 
+- add complete / non complete tabs
 
 ? use malli-code-gen for task pull vectors
 

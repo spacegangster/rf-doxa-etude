@@ -1,5 +1,5 @@
 {
-	"name": "learn-re-frame",
+	"name": "re-frame-doxa-etude-1",
 	"scripts": {
 		"watch": "npx shadow-cljs watch app browser-test karma-test",
 		"release": "npx shadow-cljs release app",

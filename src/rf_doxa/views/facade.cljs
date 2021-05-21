@@ -16,14 +16,14 @@
 (defn link-to-about-page []
   [re-com/hyperlink
    :src      (at)
-   :label    "go to About Page"
-   :on-click #(rf/dispatch [:evt.sys/navigate :about])])
+   :label    "complete"
+   :on-click #(rf/dispatch [:evt.sys/navigate {:nav/tab :nav.tab/done}])])
 
 (defn link-to-home-page []
   [re-com/hyperlink
    :src      (at)
-   :label    "go to Home Page"
-   :on-click #(rf/dispatch [:evt.sys/navigate :home])])
+   :label    "all"
+   :on-click #(rf/dispatch [:evt.sys/navigate {:nav/tab :nav.tab/all}])])
 
 
 
@@ -75,12 +75,43 @@
      ^{:key t}
      [task t])])
 
+
+(defn on-search-change [new-val]
+  (rf/dispatch [:evt.db/simple-assoc {:evt/prop :db/search-string, :evt/value new-val}]))
+
+(defn on-search-alter [new-val]
+  (rf/dispatch [:evt.db/simple-assoc {:evt/prop  :db/search-string, :evt/value new-val}]))
+
+
+
+(defn search []
+  (let [atom:search (rc/atom "")
+        sub:search (rf/subscribe [:subs.db/search-string])]
+    (fn []
+      [re-com/h-box
+       :children
+       [
+        [re-com/input-text
+         :model       @sub:search
+         :placeholder "search"
+         :on-change   on-search-change
+         #_#_:on-alter (fn [v]
+                         (prn ::alter v)
+                         (reset! atom:search v)
+                         (on-search-alter v))]
+        [re-com/button
+         :label "[reset]"
+         :on-click (rc/partial on-search-alter "")]]])))
+
+
 (defn todos []
-  (let [sub:todos (rf/subscribe [:subs.db.todos/all])]
+  (let [sub:todos (rf/subscribe [:subs.db.todos/filtered])]
     (fn []
       [re-com/v-box
        :children
-       [[re-com/button
+       [[search]
+
+        [re-com/button
          :on-click dispatch:add-task
          :label "Add task"]
         [todos-raw @sub:todos]]])))
