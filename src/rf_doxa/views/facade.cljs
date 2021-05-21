@@ -13,13 +13,19 @@
 
 ;; home
 
-(defn link-to-about-page []
+(defn tab:complete []
   [re-com/hyperlink
    :src      (at)
    :label    "complete"
-   :on-click #(rf/dispatch [:evt.sys/navigate {:nav/tab :nav.tab/done}])])
+   :on-click #(rf/dispatch [:evt.sys/navigate {:nav/tab :nav.tab/complete}])])
 
-(defn link-to-home-page []
+(defn tab:due []
+  [re-com/hyperlink
+   :src      (at)
+   :label    "due"
+   :on-click #(rf/dispatch [:evt.sys/navigate {:nav/tab :nav.tab/due}])])
+
+(defn tab:all []
   [re-com/hyperlink
    :src      (at)
    :label    "all"
@@ -90,70 +96,49 @@
 
 
 (defn search []
-  (let [atom:search (rc/atom "")
-        sub:search (rf/subscribe [:subs.db/search-string])]
+  (let [sub:search (rf/subscribe [:subs.db/search-string])]
     (fn []
       [re-com/h-box
        :children
-       [
-        [re-com/input-text
+       [[re-com/input-text
          :model       @sub:search
          :placeholder "search"
          :on-change   on-search-change
-         #_#_:on-alter (fn [v]
-                         (prn ::alter v)
-                         (reset! atom:search v)
-                         (on-search-alter v))]
+         :on-alter (fn [v] (on-search-alter v) v)]
         [re-com/button
          :label "[reset]"
          :on-click (rc/partial on-search-alter "")]]])))
 
+(defn tabs []
+  (let [sub:at (rf/subscribe [:subs.db/active-tab])]
+    (fn []
+      (let [a-tab @sub:at]
+        [re-com/h-box
+         :gap "16px"
+         :children
+         [[tab:all (= :tabs/all a-tab)]
+          [tab:due (= :tabs/due a-tab)]
+          [tab:complete(= :tabs/complete a-tab)]]]))))
 
 (defn todos []
   (let [sub:todos (rf/subscribe [:subs.db.todos/filtered])]
     (fn []
       [re-com/v-box
+       :gap "8px"
        :children
-       [[search]
-
+       [[tabs]
+        [search]
         [re-com/button
          :on-click dispatch:add-task
          :label "Add task"]
         ^{:key @sub:todos}
         [todos-raw @sub:todos]]])))
 
-(defn home-panel []
+
+(defn face []
   [re-com/v-box
-   :src      (at)
-   :gap      "1em"
+   :src (at)
+   :height "100%"
+   :align :center
    :children [[home-title]
               [todos]]])
-
-
-(defmethod routes/panels :home-panel [] [home-panel])
-
-;; about
-
-(defn about-title []
-  [re-com/title
-   :src   (at)
-   :label "This is the About Page."
-   :level :level1])
-
-(defn about-panel []
-  [re-com/v-box
-   :src      (at)
-   :gap      "1em"
-   :children [[about-title]
-              [link-to-home-page]]])
-
-(defmethod routes/panels :about-panel [] [about-panel])
-
-;; main
-
-(defn main-panel []
-  (let [active-panel (rf/subscribe [::subs/active-panel])]
-    [re-com/v-box
-     :src      (at)
-     :height   "100%"
-     :children [(routes/panels @active-panel)]]))

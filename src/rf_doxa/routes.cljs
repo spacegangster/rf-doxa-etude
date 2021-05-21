@@ -5,33 +5,43 @@
    [re-frame.core :as re-frame]
    [rf-doxa.events :as events]))
 
-(defmulti panels identity)
-(defmethod panels :default [] [:div "No panel found for this route."])
 
 (def routes
   (atom
-    ["/" {""      :home
-          "about" :nav.tab/about}]))
+    ["/" {""         :nav.tab/all
+          "due"      :nav.tab/due
+          "complete" :nav.tab/complete}]))
+
 
 (defn parse
   [url]
+  (prn ::parsing url)
   (bidi/match-route @routes url))
 
+(comment
+  (parse "/complete"))
+
+
 (defn url-for
-  [& args]
-  (apply bidi/path-for (into [@routes] args)))
+  [nav-map]
+  (apply bidi/path-for [@routes (:nav/tab nav-map)]))
+
+(comment
+  (url-for {:nav/tab :nav.tab/all}))
+
 
 (defn dispatch
   [route]
-  (let [panel (keyword (str (name (:handler route)) "-panel"))]
-    (re-frame/dispatch [::events/set-active-panel panel])))
+  (prn ::route route)
+  (re-frame/dispatch [:evt.db/set-active-tab (:handler route)]))
 
 (def history
   (pushy/pushy dispatch parse))
 
 (defn navigate!
-  [handler]
-  (pushy/set-token! history (url-for handler)))
+  [nav-map]
+  (prn ::nav nav-map)
+  (pushy/set-token! history (url-for nav-map)))
 
 (defn start!
   []
@@ -39,5 +49,5 @@
 
 (re-frame/reg-fx
   :fx/navigate
-  (fn [handler]
-    (navigate! handler)))
+  (fn [nav-map]
+    (navigate! nav-map)))

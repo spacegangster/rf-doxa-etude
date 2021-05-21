@@ -1,13 +1,13 @@
 (ns rf-doxa.subs
   (:require
     [re-frame.core :as rf]
-    [meander.epsilon]
     [ribelo.doxa :as dx]))
 
+
 (rf/reg-sub
- ::active-panel
- (fn [db _]
-   (:active-panel db)))
+  :subs.db/active-tab
+  (fn [db _]
+    (:db/active-tab db)))
 
 
 (rf/reg-sub
@@ -22,13 +22,17 @@
   (fn [db]
     (let [search-text (:db/search-string db "")
           search-re (re-pattern search-text)
+          tab (:db/active-tab db :nav.tab/all)
+          status (case tab, :nav.tab/due false, :nav.tab/complete true, nil)
           query-res
           (dx/q [:find ?e
-                 :in ?pat
+                 :in ?pat ?q-status
                  :where
                  [?e :m/gist ?g]
+                 [?e :m/status ?status]
+                 [(= ?q-status ?status)]
                  [(re-find ?pat ?g)]]
-                db search-re)
+                db search-re status)
           ids (flatten query-res)
           idents (mapv #(vector :db/id %) ids)]
       (dx/pull db task-pull-vector idents))))

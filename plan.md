@@ -12,12 +12,13 @@
 - add and delete tasks – added UI and the events
 - add text search (basic re-find)
 - fix false attrs submit in diff
+- add todo list tabs
 
 
 
 # todo
 
-- add complete / non complete tabs
+- dynamic query entries
 
 ? use malli-code-gen for task pull vectors
 

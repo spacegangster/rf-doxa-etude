@@ -40,14 +40,14 @@
 
 (rf/reg-event-fx
   :evt.sys/navigate
-  (fn [_ [_ page]]
-    {:fx/navigate page}))
+  (fn [_ [_ nav-map]]
+    {:fx/navigate nav-map}))
 
 
 (rf/reg-event-fx
- ::set-active-panel
- (fn [{:keys [db]} [_ active-panel]]
-   {:db (assoc db :active-panel active-panel)}))
+  :evt.db/set-active-tab
+  (fn [{:keys [db]} [_ active-panel]]
+    {:db (assoc db :db/active-tab active-panel)}))
 
 
 (defn db->new-id [db]
@@ -72,7 +72,7 @@
   :evt.db/add-task
   (fn [{db :db, :as cofx}]
     (let [[new-id db]  (db->new-id db)
-          put-vec [:dx/put {:db/id new-id :m/gist ""}]
+          put-vec [:dx/put {:db/id new-id :m/gist "" :m/status false}]
           db (dx/commit db put-vec)]
       {:db db})))
 
