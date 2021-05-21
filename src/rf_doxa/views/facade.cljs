@@ -61,8 +61,11 @@
     :as task}]
   [re-com/h-box
    :class (styles/task)
+   :align :center
+   :gap "8px"
    :children
    [[re-com/checkbox
+     :style {:marginTop "-2px"}
      :model status
      ;:attr {:checked status}
      :on-change (rc/partial on-task-status-change id)]

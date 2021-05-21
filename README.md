@@ -1,5 +1,8 @@
-## doxa + re-frame etude
-This etude combines [doxa](https://github.com/ribelo/doxa) and re-frame.
+## doxa + re-frame study
+![todo app main screen](/resources/screenshot1.png?raw=true "re-frame-doxa-study")
+
+A barebone todo list app combining [doxa](https://github.com/ribelo/doxa) DB and re-frame.
+
 Doxa is a new Clojure DB that works both on frontend and backend and strikes a good balance
 between usability, features and speed.
 
