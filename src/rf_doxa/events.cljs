@@ -69,6 +69,19 @@
 
 
 (rf/reg-event-fx
+  :evt.db/incoming-diff
+  [re-frame.core/trim-v]
+  (fn [{db :db, :as cofx} [{:diff/keys [edits path op-type value time]}]]
+    {:db (dx/patch db (or edits [[path op-type value]]) time)}))
+
+(comment
+  (rf/dispatch
+    [:evt.db/incoming-diff
+     {:diff/edits [[[:db/id 1 :m/gist] :r "buy milk 2ee"]]
+      :diff/time 1621601148627}]))
+
+
+(rf/reg-event-fx
   :evt.db/add-task
   (fn [{db :db, :as cofx}]
     (let [[new-id db]  (db->new-id db)

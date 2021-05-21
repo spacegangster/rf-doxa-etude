@@ -14,11 +14,15 @@
 - fix false attrs submit in diff
 - add todo list tabs
 
+- add query by status (dumb if for two queries
+  (I've failed to query for missing fields or dynamically inject a vector into a query) 
+  https://github.com/ribelo/doxa/issues/15
+- apply incoming diffs 
+
 
 
 # todo
 
-- dynamic query entries
 
 ? use malli-code-gen for task pull vectors
 

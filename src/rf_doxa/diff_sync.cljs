@@ -6,6 +6,7 @@
     [ribelo.doxa :as dx]))
 
 
+;;;;; Diff Generation ;;;;;
 (comment
   "diff generation is done with editscript"
 
@@ -19,9 +20,13 @@
   "a function that gets the db along with that metadata as argument.")
 
 
-;
-; In addition, if we would like to update db with generated diff, this is also already done. There is a patch and patch! function, that update db using editscript edits while preserving metadata.
-;
-; I currently use this to sync with firebase, where in addition to holding the entire db, I hold and watch diffs, which is much cheaper and basically costless.
-;
-; I'm going to document it somewhere, but the whole concept is still clarifying. The main reason for creating doxa was the frustration of synchronizing datascript with anything.
+;;;;; Diff Application ;;;;;
+(comment
+  "In addition, if we would like to update db with generated diff, this "
+  "is also already done. There are " ribelo.doxa/patch "and" ribelo.doxa/patch! "functions,"
+  "that update the db using editscript edits while preserving metadata."
+
+  "I currently use this to sync with firebase, where in addition to holding the entire db,"
+  "I hold and watch diffs, which is much cheaper and basically costless."
+  "I'm going to document it somewhere, but the whole concept is still clarifying."
+  "The main reason for creating doxa was the frustration of synchronizing datascript with anything.")

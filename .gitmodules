@@ -1,3 +1,6 @@
 [submodule "doxa"]
 	path = doxa
 	url = https://github.com/ribelo/doxa
+[submodule "malli-code-gen"]
+	path = malli-code-gen
+	url = https://github.com/dvingo/malli-code-gen
