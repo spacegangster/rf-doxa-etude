@@ -20,6 +20,10 @@
 - apply incoming diffs 
 - use malli-code-gen for task pull vectors
 
+# own
+- add screenshot
+- improve readme
+
 
 
 # todo
