@@ -20,6 +20,23 @@
 (def task-pull-vector
   (mcg/schema->eql rf-doxa.specs/schema:task {}))
 
+(defn calc-tasks--native-pull [db search-string status]
+  (let [search-re (re-pattern search-string)]
+    (if (nil? status)
+      (dx/q [:find [(pull [:*] [?table ?e]) ...]
+             :in ?pat
+             :where
+             [?table ?e :m/gist ?g]
+             [(re-find ?pat ?g)]]
+            db search-re)
+      (dx/q [:find [(pull [:*] [?table ?e]) ...]
+             :in ?pat ?q-status
+             :where
+             [?table ?e :m/gist ?g]
+             [?table ?e :m/status ?q-status]
+             [(re-find ?pat ?g)]]
+            db search-re status))))
+
 
 (defn calc-tasks [db search-string status]
   (let [search-re (re-pattern search-string)
@@ -95,7 +112,7 @@
             :where [[?table ?e] :m/gist]]
            dx1)
      (dx/q [:find [(pull [:*] [?table ?e]) ...]
-            :where [?table ?e :m/gist]]
+            :where [?table ?e :m/gist ?x]]
            dx1)])
 
   (dx/q [:find ?e :where [?e :m/gist]] @re-frame.db/app-db))
