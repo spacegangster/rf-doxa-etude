@@ -25,6 +25,7 @@
 - improve readme
 - fix debugging code
 - add opinion to readme
+- subs : move query into a clean fn; more commented queries
 
 
 
