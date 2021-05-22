@@ -26,6 +26,7 @@
 - fix debugging code
 - add opinion to readme
 - subs : move query into a clean fn; more commented queries
+- add microbench; add video link into readme
 
 
 
