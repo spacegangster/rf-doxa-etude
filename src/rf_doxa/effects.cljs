@@ -32,6 +32,7 @@
                              (some? ?new-val) (assoc :diff/value ?new-val))]
         (rf/dispatch [:evt.sys/post-diff diff-evt])))))
 
+
 (rf/reg-fx
   :fx.server/post-diff
   (fn [diff]
@@ -39,10 +40,18 @@
 
 (rf/reg-fx
   :fx.dx/register-db
-  (fn [[db-name get-db-atom]]
+  (fn [[^keyword db-name, get-db-atom]]
     (let [db-atom (get-db-atom)]
       (dx/reg-dx! db-name db-atom)
       (dx/listen! @db-atom on-db-events))))
+
+(comment
+  (meta @re-frame.db/app-db)
+  (def a (with-meta {:my :map} {:meta-key1 :one}))
+  (meta a)
+  (meta (merge a {:two 'two}))
+  (meta (merge {:two 'two} a)))
+
 
 (rf/reg-fx
   :fx.dx/put

@@ -75,10 +75,17 @@
     {:db (dx/patch db (or edits [[path op-type value]]) time)}))
 
 (comment
+  ; patch whole map
   (rf/dispatch
     [:evt.db/incoming-diff
-     {:diff/edits [[[:db/id 1 :m/gist] :r "buy milk 2ee"]]
-      :diff/time 1621601148627}]))
+     {:diff/edits [[[:db/id 1] :r {:m/gist "buy milk e"}]]
+      :diff/time  1621601148627}])
+
+  ; patch a simple value
+  (rf/dispatch
+    [:evt.db/incoming-diff
+     {:diff/edits [[[:db/id 1 :m/gist] :r "buy milk e"]]
+      :diff/time  1621601148627}]))
 
 
 (rf/reg-event-fx
@@ -100,7 +107,9 @@
 (rf/reg-event-fx
   :evt.db/put
   [re-frame.core/trim-v]
-  (fn [{db :db, :as cofx} [put-able]]
+  (defn db-put
+    "put-able is map or a vector like: [[:db/id 1] :prop-name val]"
+    [{db :db, :as cofx} [put-able]]
     (prn ::put put-able)
     (let [put-vec (if (map? put-able)
                     [:dx/put put-able]

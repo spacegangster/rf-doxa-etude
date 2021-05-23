@@ -91,7 +91,7 @@
            :in ?pat ?q-status
            :where
            [?e :m/gist ?g]
-           [?e :m/status (m/any ?status)]
+           [?e :m/status (m/not (m/some ?status))]
            [(re-find ?pat ?g)]]
           db #"" nil)))
 
@@ -109,8 +109,9 @@
   (let [dx1 (dx/create-dx [{:db/id 1 :m/gist "buy milk 1", :m/status false}
                            {:db/id 4 :m/gist "buy milk 4", :m/status false}])]
     [(dx/q [:find [(pull [:*] [?table ?e]) ...]
+            :in ?param-name
             :where [[?table ?e] :m/gist]]
-           dx1)
+           dx1 11)
      (dx/q [:find [(pull [:*] [?table ?e]) ...]
             :where [?table ?e :m/gist ?x]]
            dx1)])
@@ -123,8 +124,8 @@
   (dx/q [:find  ?e
          :where [?e :m/gist]]
         @re-frame.db/app-db)
-  (dx/q [:find  [('pull [:m/gist] [?e]) ...]
-         :where [?e :m/gist]]
+  (dx/q [:find  [('pull [:m/gist] [?table ?e]) ...]
+         :where [?table ?e :m/gist ?x]]
         @re-frame.db/app-db))
 
 

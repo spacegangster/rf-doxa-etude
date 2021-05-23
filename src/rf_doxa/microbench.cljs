@@ -100,7 +100,10 @@
   ; On MBP 2018 this takes 500+ ms usually
 
   (time
-    (def f1 (filterv #(re-find #"Mk3" (:gist %)) tasks1))))
+    (def f1 (filterv #(re-find #"Mk3" (:gist %)) tasks1)))
   ; MBP 2018 ~40ms"
 
+  ; since doxa is hosted on a simple hash-map, you can do a direct filterv
+  (time
+    (-> db1 :db/id vals (->> (filterv #(re-find #"Mk3" %))))))
 
